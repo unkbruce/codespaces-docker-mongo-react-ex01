@@ -10,6 +10,13 @@ const STATUS_OPTIONS = [
 
 const CATEGORY_OPTIONS = ['국내 소설', '해외 소설', '에세이', '자기계발', '경제경영', '인문', '고전', '과학'];
 
+const SORT_OPTIONS = [
+  { value: 'latest', label: '최신순' },
+  { value: 'rating', label: '별점 높은순' },
+  { value: 'title', label: '제목순' },
+  { value: 'endDate', label: '완독일순' },
+];
+
 const EMPTY_FORM = {
   title: '',
   author: '',
@@ -52,9 +59,37 @@ const getStats = (books) => ({
   paused: books.filter((book) => book.status === 'paused').length,
 });
 
+const getDateTime = (value) => {
+  const time = new Date(value || 0).getTime();
+  return Number.isNaN(time) ? 0 : time;
+};
+
+const sortBooks = (books, sortBy) => {
+  const sortedBooks = [...books];
+
+  sortedBooks.sort((a, b) => {
+    if (sortBy === 'rating') {
+      return Number(b.rating || 0) - Number(a.rating || 0) || a.title.localeCompare(b.title, 'ko');
+    }
+
+    if (sortBy === 'title') {
+      return a.title.localeCompare(b.title, 'ko');
+    }
+
+    if (sortBy === 'endDate') {
+      return getDateTime(b.endDate) - getDateTime(a.endDate) || a.title.localeCompare(b.title, 'ko');
+    }
+
+    return getDateTime(b.createdAt) - getDateTime(a.createdAt);
+  });
+
+  return sortedBooks;
+};
+
 function App() {
   const [books, setBooks] = useState([]);
   const [filters, setFilters] = useState({ q: '', status: '', category: '' });
+  const [sortBy, setSortBy] = useState('latest');
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingBookId, setEditingBookId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,12 +98,13 @@ function App() {
 
   const stats = useMemo(() => getStats(books), [books]);
   const isEditing = Boolean(editingBookId);
-  const totalPages = Math.max(1, Math.ceil(books.length / PAGE_SIZE));
+  const sortedBooks = useMemo(() => sortBooks(books, sortBy), [books, sortBy]);
+  const totalPages = Math.max(1, Math.ceil(sortedBooks.length / PAGE_SIZE));
   const pageNumbers = useMemo(() => Array.from({ length: totalPages }, (_, index) => index + 1), [totalPages]);
   const paginatedBooks = useMemo(() => {
     const startIndex = (currentPage - 1) * PAGE_SIZE;
-    return books.slice(startIndex, startIndex + PAGE_SIZE);
-  }, [books, currentPage]);
+    return sortedBooks.slice(startIndex, startIndex + PAGE_SIZE);
+  }, [sortedBooks, currentPage]);
 
   const statCards = [
     { label: '전체 책 수', value: stats.total, color: 'text-book-green' },
@@ -107,6 +143,11 @@ function App() {
     const { name, value } = event.target;
     setCurrentPage(1);
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  };
+
+  const handleSortChange = (event) => {
+    setCurrentPage(1);
+    setSortBy(event.target.value);
   };
 
   const handleFormChange = (event) => {
@@ -277,7 +318,7 @@ function App() {
                 </p>
               </div>
 
-              <div className="mt-4 grid gap-3 md:grid-cols-[1.4fr_1fr_1fr]">
+              <div className="mt-4 grid gap-3 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
                 <input className={fieldClass} name="q" value={filters.q} onChange={handleFilterChange} placeholder="제목 또는 저자 검색" />
                 <select className={fieldClass} name="status" value={filters.status} onChange={handleFilterChange}>
                   <option value="">전체 상태</option>
@@ -292,6 +333,13 @@ function App() {
                   {CATEGORY_OPTIONS.map((category) => (
                     <option key={category} value={category}>
                       {category}
+                    </option>
+                  ))}
+                </select>
+                <select className={fieldClass} value={sortBy} onChange={handleSortChange} aria-label="정렬 조건">
+                  {SORT_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
                     </option>
                   ))}
                 </select>
