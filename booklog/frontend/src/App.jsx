@@ -176,11 +176,11 @@ function App() {
   return (
     <main className="min-h-screen px-4 py-6 text-book-ink sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="overflow-hidden rounded-lg bg-[linear-gradient(120deg,rgba(22,44,43,0.94),rgba(130,79,45,0.72)),url('https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center px-6 py-10 shadow-soft sm:px-8 sm:py-14">
-          <p className="text-xs font-extrabold uppercase tracking-normal text-amber-200">Reading CRUD App</p>
+        <section className="hero-banner overflow-hidden rounded-lg bg-[linear-gradient(120deg,rgba(22,44,43,0.94),rgba(130,79,45,0.72)),url('https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center px-6 py-10 shadow-soft sm:px-8 sm:py-14">
+          <p className="text-xs font-extrabold uppercase tracking-normal text-amber-200">Reading Log App</p>
           <h1 className="mt-2 text-5xl font-black tracking-normal text-book-paper sm:text-6xl">BookLog</h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-100 sm:text-base">
-            베스트셀러와 스테디셀러 50권을 시작점으로 검색, 필터링, 독서 상태, 별점, 메모를 관리하는 독서 기록 앱입니다.
+          <p className="hero-description mt-4 max-w-2xl text-sm leading-7 text-stone-100 sm:text-base">
+            베스트셀러와 스테디셀러 50권을 기반으로 책을 검색하고, 독서 상태와 별점, 메모를 관리할 수 있는 독서 기록 앱입니다.
           </p>
         </section>
 
@@ -194,22 +194,24 @@ function App() {
         </section>
 
         <section className="mt-5 grid gap-5 lg:grid-cols-[360px_1fr] xl:grid-cols-[390px_1fr]">
-          <form className="rounded-lg border border-stone-200/80 bg-white/90 p-5 shadow-soft lg:sticky lg:top-5 lg:self-start" onSubmit={handleSubmit}>
+          <form className="compact-book-form rounded-lg border border-stone-200/80 bg-white/90 p-5 shadow-soft lg:sticky lg:top-5 lg:self-start" onSubmit={handleSubmit}>
             <div>
               <p className="text-xs font-extrabold uppercase tracking-normal text-book-amber">{isEditing ? '기록 수정' : '새 책 추가'}</p>
               <h2 className="mt-1 text-xl font-black tracking-normal text-book-ink">{isEditing ? '책 정보를 수정하세요' : '독서 기록을 남겨보세요'}</h2>
             </div>
 
-            <div className="mt-5 grid gap-3">
-              <label className="text-sm font-bold text-book-muted">
-                제목
-                <input className={fieldClass} name="title" value={form.title} onChange={handleFormChange} required placeholder="책 제목" />
-              </label>
-              <label className="text-sm font-bold text-book-muted">
-                저자
-                <input className={fieldClass} name="author" value={form.author} onChange={handleFormChange} placeholder="저자" />
-              </label>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="compact-form-grid mt-5 grid gap-3">
+              <div className="compact-row compact-row-two">
+                <label className="text-sm font-bold text-book-muted">
+                  제목
+                  <input className={fieldClass} name="title" value={form.title} onChange={handleFormChange} required placeholder="책 제목" />
+                </label>
+                <label className="text-sm font-bold text-book-muted">
+                  저자
+                  <input className={fieldClass} name="author" value={form.author} onChange={handleFormChange} placeholder="저자" />
+                </label>
+              </div>
+              <div className="compact-row compact-row-three">
                 <label className="text-sm font-bold text-book-muted">
                   카테고리
                   <select className={fieldClass} name="category" value={form.category} onChange={handleFormChange}>
@@ -230,12 +232,12 @@ function App() {
                     ))}
                   </select>
                 </label>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
                 <label className="text-sm font-bold text-book-muted">
                   별점
                   <input className={fieldClass} name="rating" type="number" min="0" max="5" step="0.5" value={form.rating} onChange={handleFormChange} />
                 </label>
+              </div>
+              <div className="compact-row compact-row-two">
                 <label className="text-sm font-bold text-book-muted">
                   시작일
                   <input className={fieldClass} name="startDate" type="date" value={form.startDate} onChange={handleFormChange} />
@@ -251,7 +253,7 @@ function App() {
               </label>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="compact-form-actions mt-5 flex flex-wrap gap-2">
               <button className={primaryButtonClass} type="submit">
                 {isEditing ? '수정 저장' : '책 추가'}
               </button>
