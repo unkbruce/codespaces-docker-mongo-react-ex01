@@ -176,6 +176,88 @@ article.min-h-\[260px\] dl + p {
   -webkit-box-orient: vertical;
 }
 
+.delete-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem;
+  padding-top: max(4rem, 34vh);
+  background: rgba(37, 48, 47, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+.delete-modal {
+  width: min(100%, 26rem);
+  border: 1px solid rgba(240, 166, 156, 0.58);
+  border-radius: 0.75rem;
+  padding: 1.1rem;
+  color: #25302f;
+  background: linear-gradient(135deg, rgba(255, 250, 242, 0.98), rgba(255, 241, 238, 0.96));
+  box-shadow: 0 22px 60px rgba(52, 76, 70, 0.22);
+}
+
+.delete-modal-eyebrow {
+  margin: 0 0 0.25rem;
+  color: #c24132;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.delete-modal h2 {
+  margin: 0;
+  color: #25302f;
+  font-size: 1.18rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.delete-modal p {
+  margin-top: 0.45rem;
+  color: #68766f;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.delete-modal-book {
+  display: grid;
+  gap: 0.18rem;
+  margin-top: 0.9rem;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid rgba(231, 229, 228, 0.9);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.delete-modal-book span,
+.delete-modal-book small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.delete-modal-book span {
+  color: #25302f;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.delete-modal-book small {
+  color: #68766f;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.delete-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
 @media (min-width: 640px) {
   .compact-row-two,
   .compact-row-three {

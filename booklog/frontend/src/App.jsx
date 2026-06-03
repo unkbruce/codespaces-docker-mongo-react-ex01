@@ -92,6 +92,8 @@ function App() {
   const [sortBy, setSortBy] = useState('latest');
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingBookId, setEditingBookId] = useState(null);
+  const [deleteTargetBook, setDeleteTargetBook] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -199,18 +201,28 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleDelete = async (bookId) => {
-    const confirmed = window.confirm('이 책을 삭제할까요?');
+  const openDeleteModal = (book) => {
+    setDeleteTargetBook(book);
+  };
 
-    if (!confirmed) {
+  const closeDeleteModal = () => {
+    setDeleteTargetBook(null);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTargetBook) {
       return;
     }
 
     try {
-      await deleteBook(bookId);
+      setIsDeleting(true);
+      await deleteBook(deleteTargetBook._id);
+      closeDeleteModal();
       await loadBooks();
     } catch (error) {
       setErrorMessage(error.message);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -390,7 +402,7 @@ function App() {
                     <button type="button" className={`${subtleButtonClass} flex-1`} onClick={() => handleEdit(book)}>
                       수정
                     </button>
-                    <button type="button" className={`${dangerButtonClass} flex-1`} onClick={() => handleDelete(book._id)}>
+                    <button type="button" className={`${dangerButtonClass} flex-1`} onClick={() => openDeleteModal(book)}>
                       삭제
                     </button>
                   </div>
@@ -426,6 +438,32 @@ function App() {
           </section>
         </section>
       </div>
+
+      {deleteTargetBook && (
+        <div className="delete-modal-overlay" role="presentation">
+          <section className="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" aria-describedby="delete-modal-description">
+            <div>
+              <p className="delete-modal-eyebrow">삭제 확인</p>
+              <h2 id="delete-modal-title">이 책 기록을 삭제할까요?</h2>
+              <p id="delete-modal-description">삭제하면 되돌릴 수 없습니다.</p>
+            </div>
+
+            <div className="delete-modal-book">
+              <span>{deleteTargetBook.title}</span>
+              <small>{deleteTargetBook.author || '저자 미상'}</small>
+            </div>
+
+            <div className="delete-modal-actions">
+              <button type="button" className={subtleButtonClass} onClick={closeDeleteModal} disabled={isDeleting}>
+                취소
+              </button>
+              <button type="button" className={dangerButtonClass} onClick={handleDelete} disabled={isDeleting}>
+                {isDeleting ? '삭제 중...' : '삭제'}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }
