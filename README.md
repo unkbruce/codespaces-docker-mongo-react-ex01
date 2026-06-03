@@ -1,26 +1,56 @@
 # BookLog
 
-BookLog는 베스트셀러/스테디셀러 느낌의 초기 도서 50권을 제공하고, 사용자가 책을 검색/필터링하며 독서 상태, 별점, 메모를 관리할 수 있는 독서 기록 CRUD 앱입니다. GitHub Codespaces에서 Docker MongoDB 컨테이너를 띄운 뒤 React 프론트엔드와 Express 백엔드를 각각 실행하도록 구성했습니다.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFFFFF)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=FFFFFF)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=FFFFFF)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=FFFFFF)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=FFFFFF)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=FFFFFF)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=FFFFFF)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=FFFFFF)
+![GitHub Codespaces](https://img.shields.io/badge/GitHub%20Codespaces-181717?style=for-the-badge&logo=github&logoColor=FFFFFF)
 
-## 기술 스택
+베스트셀러와 스테디셀러 50권을 기반으로 책을 검색하고, 독서 상태와 별점, 메모를 관리할 수 있는 독서 기록 CRUD 앱입니다.
 
-- Frontend: Vite, React, CSS
-- Backend: Node.js, Express
-- Database: MongoDB
-- ODM: Mongoose
-- API 통신: fetch API
-- DB 실행 방식: Docker MongoDB 컨테이너
+## 화면 미리보기
+
+![BookLog 메인 화면](docs/images/booklog-main.png)
+
+이미지 파일은 `docs/images/booklog-main.png` 경로에 추가하면 README에서 바로 표시됩니다.
 
 ## 주요 기능
 
-- 도서 50권 seed 데이터 삽입
-- 책 목록 조회
+- 베스트셀러/스테디셀러 기반 도서 50권 seed 데이터 제공
+- 도서 목록 조회
+- 도서 추가
+- 도서 수정
+- 도서 삭제
+- 삭제 확인 커스텀 모달
 - 제목/저자 검색
-- 독서 상태별 필터링
-- 카테고리별 필터링
-- 책 추가, 상세 조회, 수정, 삭제
-- 전체/읽고 싶은 책/읽는 중/완독/중단 통계 표시
-- 모바일 우선 반응형 카드 UI
+- 독서 상태 필터
+- 카테고리 필터
+- 정렬 기능
+  - 최신순
+  - 별점 높은순
+  - 제목순
+  - 완독일순
+- 책 목록 페이지네이션
+- 통계 카드 표시
+  - 전체 책 수
+  - 읽고 싶은 책
+  - 읽는 중
+  - 완독
+  - 중단
+- MongoDB 기반 데이터 저장
+- Docker로 MongoDB 컨테이너 실행
+
+## 기술 스택
+
+- Frontend: React, Vite, Tailwind CSS, CSS
+- Backend: Node.js, Express
+- Database: MongoDB, Mongoose
+- Dev Environment: Docker, GitHub Codespaces
 
 ## 폴더 구조
 
@@ -38,6 +68,8 @@ booklog/
 ├─ frontend/
 │  ├─ index.html
 │  ├─ vite.config.js
+│  ├─ tailwind.config.js
+│  ├─ postcss.config.js
 │  ├─ src/
 │  │  ├─ main.jsx
 │  │  ├─ App.jsx
@@ -46,24 +78,30 @@ booklog/
 │  │     └─ books.js
 │  └─ package.json
 │
+├─ docs/
+│  └─ images/
+│     └─ booklog-main.png
+│
 └─ README.md
 ```
 
 ## 실행 방법
 
-### 1. Docker로 MongoDB 실행
+아래 명령어는 현재 레포지토리 루트에 `booklog/` 폴더가 있는 구조를 기준으로 작성했습니다.
+
+### 1. MongoDB Docker 컨테이너 실행
 
 ```bash
 docker run -d --name mongodb-lab -p 27017:27017 mongo
 ```
 
-이미 같은 이름의 컨테이너가 있다면 아래처럼 다시 시작할 수 있습니다.
+이미 컨테이너가 있다면:
 
 ```bash
 docker start mongodb-lab
 ```
 
-### 2. Backend 설치/실행
+### 2. Backend 실행
 
 ```bash
 cd booklog/backend
@@ -72,23 +110,9 @@ npm run seed
 npm run dev
 ```
 
-백엔드는 기본적으로 `http://localhost:5000`에서 실행됩니다.
+Backend 기본 주소는 `http://localhost:5000`입니다.
 
-MongoDB 연결 주소 기본값은 아래와 같습니다.
-
-```text
-mongodb://localhost:27017/booklog
-```
-
-다른 주소를 사용하려면 `MONGO_URI` 환경변수를 설정하면 됩니다.
-
-```bash
-MONGO_URI=mongodb://localhost:27017/booklog npm run dev
-```
-
-### 3. Frontend 설치/실행
-
-새 터미널을 열고 실행합니다.
+### 3. Frontend 실행
 
 ```bash
 cd booklog/frontend
@@ -96,9 +120,29 @@ npm install
 npm run dev
 ```
 
-프론트엔드는 기본적으로 `http://localhost:5173`에서 실행됩니다.
+### 4. 접속 주소
 
-백엔드 주소를 바꾸고 싶다면 `VITE_API_BASE_URL` 환경변수를 사용할 수 있습니다.
+```text
+http://localhost:5173
+```
+
+GitHub Codespaces 환경에서는 **Ports** 탭에서 `5173` 포트를 열어 화면을 확인할 수 있습니다.
+
+## 환경 변수
+
+MongoDB 연결 주소는 기본값으로 아래 주소를 사용합니다.
+
+```text
+mongodb://localhost:27017/booklog
+```
+
+`MONGO_URI` 환경변수가 있으면 해당 값을 우선 사용합니다.
+
+```bash
+MONGO_URI=mongodb://localhost:27017/booklog npm run dev
+```
+
+Frontend에서 백엔드 API 주소를 바꾸고 싶다면 `VITE_API_BASE_URL`을 사용할 수 있습니다.
 
 ```bash
 VITE_API_BASE_URL=http://localhost:5000 npm run dev
@@ -106,107 +150,84 @@ VITE_API_BASE_URL=http://localhost:5000 npm run dev
 
 ## API 명세
 
-### GET /books
+| Method | Endpoint | 설명 | Request Body / Query |
+|---|---|---|---|
+| GET | `/books` | 책 목록 조회 | Query: `q` 제목/저자 검색, `status` 독서 상태 필터, `category` 카테고리 필터. 정렬은 Frontend 상태에서 처리 |
+| GET | `/books/:id` | 책 상세 조회 | Path Parameter: `id` |
+| POST | `/books` | 책 추가 | Body: `title`, `author`, `category`, `status`, `rating`, `memo`, `startDate`, `endDate` |
+| PUT | `/books/:id` | 책 수정 | Path Parameter: `id`, Body: 수정할 Book 필드 |
+| DELETE | `/books/:id` | 책 삭제 | Path Parameter: `id` |
 
-책 목록을 조회합니다. query string으로 검색과 필터를 지원합니다.
+## Book 데이터 구조
 
-Query parameters:
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| `title` | `String` | 책 제목, required |
+| `author` | `String` | 저자 |
+| `category` | `String` | 카테고리 |
+| `status` | `String` | 독서 상태 |
+| `rating` | `Number` | 별점 |
+| `memo` | `String` | 메모 |
+| `startDate` | `String` | 독서 시작일 |
+| `endDate` | `String` | 완독일 |
+| `createdAt` | `Date` | 생성일 |
 
-- `q`: 제목/저자 검색
-- `status`: 독서 상태 필터 (`want`, `reading`, `done`, `paused`)
-- `category`: 카테고리 필터
+`status` 값은 아래 네 가지를 사용합니다.
 
-예시:
+| 값 | 의미 |
+|---|---|
+| `want` | 읽고 싶은 책 |
+| `reading` | 읽는 중 |
+| `done` | 완독 |
+| `paused` | 중단 |
 
-```bash
-curl "http://localhost:5000/books?q=한강&status=want&category=국내%20소설"
-```
-
-### GET /books/:id
-
-책 상세 정보를 조회합니다.
-
-```bash
-curl "http://localhost:5000/books/BOOK_ID"
-```
+## API Request Body 예시
 
 ### POST /books
 
-책을 추가합니다.
-
-```bash
-curl -X POST "http://localhost:5000/books" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "새 책",
-    "author": "홍길동",
-    "category": "에세이",
-    "status": "want",
-    "rating": 0,
-    "memo": "읽어보고 싶은 책",
-    "startDate": "",
-    "endDate": ""
-  }'
+```json
+{
+  "title": "삼국지",
+  "author": "나관중",
+  "category": "해외 소설",
+  "status": "want",
+  "rating": 5,
+  "memo": "읽어보고 싶은 고전 소설",
+  "startDate": "",
+  "endDate": ""
+}
 ```
 
 ### PUT /books/:id
 
-책 정보를 수정합니다.
-
-```bash
-curl -X PUT "http://localhost:5000/books/BOOK_ID" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "수정한 책 제목",
-    "author": "홍길동",
-    "category": "에세이",
-    "status": "reading",
-    "rating": 3.5,
-    "memo": "읽는 중",
-    "startDate": "2026-06-03",
-    "endDate": ""
-  }'
-```
-
-### DELETE /books/:id
-
-책을 삭제합니다.
-
-```bash
-curl -X DELETE "http://localhost:5000/books/BOOK_ID"
-```
-
-## Book 모델
-
-```js
+```json
 {
-  title: String,
-  author: String,
-  category: String,
-  status: String,
-  rating: Number,
-  memo: String,
-  startDate: String,
-  endDate: String,
-  createdAt: Date
+  "title": "삼국지",
+  "author": "나관중",
+  "category": "해외 소설",
+  "status": "reading",
+  "rating": 4.5,
+  "memo": "다시 읽는 중",
+  "startDate": "2026-06-03",
+  "endDate": ""
 }
 ```
 
-`status` 값의 의미는 아래와 같습니다.
-
-- `want`: 읽고 싶은 책
-- `reading`: 읽는 중
-- `done`: 완독
-- `paused`: 중단
-
 ## 학습 포인트
 
-- Vite + React 프로젝트 구조 이해
-- React에서 `useState`, `useEffect`, `useMemo`로 화면 상태 관리
-- fetch API로 REST API 호출
-- Express Router로 API 계층 분리
-- Mongoose Schema와 validation 사용
-- MongoDB query string 검색/필터 구현
-- seed script로 초기 데이터 구성
-- Docker로 로컬 MongoDB 실행
-- 백엔드와 프론트엔드 분리 실행 방식 이해
+- Docker로 MongoDB 컨테이너 실행
+- Express와 MongoDB 연결
+- Mongoose Schema/Model 작성
+- REST API 기반 CRUD 구현
+- React에서 fetch API로 백엔드 API 호출
+- 검색, 필터, 정렬, 페이지네이션 상태 관리
+- seed.js를 활용한 초기 데이터 삽입
+- 커스텀 삭제 확인 모달 구현
+
+## 향후 개선 사항
+
+- 독서 상태 빠른 변경 기능
+- 월별 독서 통계
+- 다크모드
+- 사용자별 독서 기록 관리
+- 배포 환경 구성
