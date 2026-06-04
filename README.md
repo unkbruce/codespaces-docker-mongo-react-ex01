@@ -19,6 +19,15 @@
 
 이미지 파일은 `docs/images/booklog-main.png` 경로에 추가하면 README에서 바로 표시됩니다.
 
+## 프로젝트 문서
+
+| 문서 | Markdown | HTML | PDF |
+|---|---|---|---|
+| 요구사항 정의서 | [docs/requirements.md](docs/requirements.md) | [docs/html/requirements.html](docs/html/requirements.html) | docs/pdf/requirements.pdf |
+| 와이어프레임 | [docs/wireframe.md](docs/wireframe.md) | [docs/html/wireframe.html](docs/html/wireframe.html) | docs/pdf/wireframe.pdf |
+
+PDF 파일은 HTML 문서를 브라우저에서 연 뒤 인쇄 기능으로 저장하는 방식으로 생성할 수 있습니다. 저장 위치는 위 표의 `docs/pdf/` 경로를 기준으로 합니다.
+
 ## 주요 기능
 
 - 베스트셀러/스테디셀러 기반 도서 50권 seed 데이터 제공
@@ -42,6 +51,7 @@
   - 읽는 중
   - 완독
   - 중단
+- 요구사항 정의서와 와이어프레임 문서 제공
 - MongoDB 기반 데이터 저장
 - Docker로 MongoDB 컨테이너 실행
 
@@ -79,8 +89,16 @@ booklog/
 │  └─ package.json
 │
 ├─ docs/
-│  └─ images/
-│     └─ booklog-main.png
+│  ├─ images/
+│  │  └─ booklog-main.png
+│  ├─ requirements.md
+│  ├─ wireframe.md
+│  ├─ html/
+│  │  ├─ requirements.html
+│  │  └─ wireframe.html
+│  └─ pdf/
+│     ├─ requirements.pdf
+│     └─ wireframe.pdf
 │
 └─ README.md
 ```
@@ -147,6 +165,18 @@ Frontend에서 백엔드 API 주소를 바꾸고 싶다면 `VITE_API_BASE_URL`�
 ```bash
 VITE_API_BASE_URL=http://localhost:5000 npm run dev
 ```
+
+## PDF 문서 생성 방법
+
+자동 PDF 생성 도구는 프로젝트에 포함하지 않았습니다. HTML 문서를 브라우저에서 열어 PDF로 저장하면 됩니다.
+
+1. `docs/html/requirements.html` 또는 `docs/html/wireframe.html` 파일을 브라우저에서 엽니다.
+2. 브라우저 인쇄 메뉴를 실행합니다.
+3. 대상을 `PDF로 저장`으로 선택합니다.
+4. 용지는 `A4`로 설정합니다.
+5. `배경 그래픽` 옵션을 체크합니다.
+6. 여백은 HTML 문서의 `@page` CSS가 적용되도록 기본값을 사용합니다.
+7. 결과 파일을 `docs/pdf/requirements.pdf` 또는 `docs/pdf/wireframe.pdf`로 저장합니다.
 
 ## API 명세
 
@@ -223,6 +253,9 @@ VITE_API_BASE_URL=http://localhost:5000 npm run dev
 - 검색, 필터, 정렬, 페이지네이션 상태 관리
 - seed.js를 활용한 초기 데이터 삽입
 - 커스텀 삭제 확인 모달 구현
+- 요구사항 정의서 작성
+- 와이어프레임 문서화
+- Markdown 기반 문서를 HTML/PDF로 변환할 수 있는 구조 정리
 
 ## 향후 개선 사항
 
