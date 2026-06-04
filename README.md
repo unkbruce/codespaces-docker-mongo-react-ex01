@@ -23,8 +23,8 @@
 
 | 문서 | Markdown | PDF |
 |---|---|---|
-| 요구사항 정의서 | [docs/requirements.md](docs/requirements.md) | [docs/pdf/requirements.pdf](docs/pdf/requirements.pdf) |
-| 와이어프레임 | [docs/wireframe.md](docs/wireframe.md) | [docs/pdf/wireframe.pdf](docs/pdf/wireframe.pdf) |
+| 요구사항 정의서 | [보기](docs/requirements.md) | [보기](docs/pdf/requirements.pdf) |
+| 와이어프레임 | [보기](docs/wireframe.md) | [보기](docs/pdf/wireframe.pdf) |
 
 ## 주요 기능
 
