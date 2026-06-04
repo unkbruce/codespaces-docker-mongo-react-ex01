@@ -11,26 +11,24 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=FFFFFF)
 ![GitHub Codespaces](https://img.shields.io/badge/GitHub%20Codespaces-181717?style=for-the-badge&logo=github&logoColor=FFFFFF)
 
-베스트셀러와 스테디셀러 50권을 기반으로 책을 검색하고, 독서 상태와 별점, 메모를 관리할 수 있는 독서 기록 CRUD 앱입니다.
+베스트셀러와 스테디셀러 50권을 기반으로 책을 검색하고, 독서 상태와 별점, 메모를 관리할 수 있는 React + Express + MongoDB 기반 독서 기록 CRUD 앱입니다.
 
 ## 화면 미리보기
 
-![BookLog 메인 화면](docs/images/booklog-main.png)
+아래 이미지는 BookLog 메인 화면입니다.
 
-이미지 파일은 `docs/images/booklog-main.png` 경로에 추가하면 README에서 바로 표시됩니다.
+![BookLog 메인 화면](docs/images/booklog-main.png)
 
 ## 프로젝트 문서
 
-| 문서 | Markdown | HTML | PDF |
-|---|---|---|---|
-| 요구사항 정의서 | [docs/requirements.md](docs/requirements.md) | [docs/html/requirements.html](docs/html/requirements.html) | docs/pdf/requirements.pdf |
-| 와이어프레임 | [docs/wireframe.md](docs/wireframe.md) | [docs/html/wireframe.html](docs/html/wireframe.html) | docs/pdf/wireframe.pdf |
-
-PDF 파일은 HTML 문서를 브라우저에서 연 뒤 인쇄 기능으로 저장하는 방식으로 생성할 수 있습니다. 저장 위치는 위 표의 `docs/pdf/` 경로를 기준으로 합니다.
+| 문서 | Markdown | PDF |
+|---|---|---|
+| 요구사항 정의서 | [docs/requirements.md](docs/requirements.md) | [docs/pdf/requirements.pdf](docs/pdf/requirements.pdf) |
+| 와이어프레임 | [docs/wireframe.md](docs/wireframe.md) | [docs/pdf/wireframe.pdf](docs/pdf/wireframe.pdf) |
 
 ## 주요 기능
 
-- 베스트셀러/스테디셀러 기반 도서 50권 seed 데이터 제공
+- 도서 50권 seed 데이터 제공
 - 도서 목록 조회
 - 도서 추가
 - 도서 수정
@@ -39,21 +37,12 @@ PDF 파일은 HTML 문서를 브라우저에서 연 뒤 인쇄 기능으로 저�
 - 제목/저자 검색
 - 독서 상태 필터
 - 카테고리 필터
-- 정렬 기능
-  - 최신순
-  - 별점 높은순
-  - 제목순
-  - 완독일순
-- 책 목록 페이지네이션
-- 통계 카드 표시
-  - 전체 책 수
-  - 읽고 싶은 책
-  - 읽는 중
-  - 완독
-  - 중단
+- 정렬 기능: 최신순, 별점 높은순, 제목순, 완독일순
+- 페이지네이션
+- 통계 카드
 - 요구사항 정의서와 와이어프레임 문서 제공
 - MongoDB 기반 데이터 저장
-- Docker로 MongoDB 컨테이너 실행
+- Docker MongoDB 컨테이너 실행
 
 ## 기술 스택
 
@@ -61,51 +50,59 @@ PDF 파일은 HTML 문서를 브라우저에서 연 뒤 인쇄 기능으로 저�
 - Backend: Node.js, Express
 - Database: MongoDB, Mongoose
 - Dev Environment: Docker, GitHub Codespaces
+- API 통신: fetch API
 
 ## 폴더 구조
 
 ```text
-booklog/
-├─ backend/
-│  ├─ server.js
-│  ├─ seed.js
-│  ├─ models/
-│  │  └─ Book.js
-│  ├─ routes/
-│  │  └─ books.js
-│  └─ package.json
-│
-├─ frontend/
-│  ├─ index.html
-│  ├─ vite.config.js
-│  ├─ tailwind.config.js
-│  ├─ postcss.config.js
-│  ├─ src/
-│  │  ├─ main.jsx
-│  │  ├─ App.jsx
-│  │  ├─ App.css
-│  │  └─ api/
-│  │     └─ books.js
-│  └─ package.json
+.
+├─ booklog/
+│  ├─ .gitignore
+│  ├─ backend/
+│  │  ├─ server.js
+│  │  ├─ seed.js
+│  │  ├─ models/
+│  │  │  └─ Book.js
+│  │  ├─ routes/
+│  │  │  └─ books.js
+│  │  ├─ package.json
+│  │  └─ package-lock.json
+│  │
+│  └─ frontend/
+│     ├─ index.html
+│     ├─ vite.config.js
+│     ├─ tailwind.config.js
+│     ├─ postcss.config.js
+│     ├─ src/
+│     │  ├─ main.jsx
+│     │  ├─ App.jsx
+│     │  ├─ App.css
+│     │  └─ api/
+│     │     └─ books.js
+│     ├─ package.json
+│     └─ package-lock.json
 │
 ├─ docs/
 │  ├─ images/
 │  │  └─ booklog-main.png
 │  ├─ requirements.md
 │  ├─ wireframe.md
-│  ├─ html/
+│  ├─ html/                  # PDF 변환용 HTML 원본
 │  │  ├─ requirements.html
 │  │  └─ wireframe.html
 │  └─ pdf/
 │     ├─ requirements.pdf
 │     └─ wireframe.pdf
 │
+├─ scripts/
+│  └─ generate-pdf.js
+├─ package.json
+├─ package-lock.json
+├─ .gitignore
 └─ README.md
 ```
 
 ## 실행 방법
-
-아래 명령어는 현재 레포지토리 루트에 `booklog/` 폴더가 있는 구조를 기준으로 작성했습니다.
 
 ### 1. MongoDB Docker 컨테이너 실행
 
@@ -168,21 +165,20 @@ VITE_API_BASE_URL=http://localhost:5000 npm run dev
 
 ## PDF 문서 생성 방법
 
-자동 PDF 생성 도구는 프로젝트에 포함하지 않았습니다. HTML 문서를 브라우저에서 열어 PDF로 저장하면 됩니다.
+문서 PDF는 `docs/html` 폴더의 HTML 원본을 기준으로 생성합니다.
 
-1. `docs/html/requirements.html` 또는 `docs/html/wireframe.html` 파일을 브라우저에서 엽니다.
-2. 브라우저 인쇄 메뉴를 실행합니다.
-3. 대상을 `PDF로 저장`으로 선택합니다.
-4. 용지는 `A4`로 설정합니다.
-5. `배경 그래픽` 옵션을 체크합니다.
-6. 여백은 HTML 문서의 `@page` CSS가 적용되도록 기본값을 사용합니다.
-7. 결과 파일을 `docs/pdf/requirements.pdf` 또는 `docs/pdf/wireframe.pdf`로 저장합니다.
+```bash
+npm install
+npm run docs:pdf
+```
+
+최종 PDF 산출물은 `docs/pdf` 폴더에서 확인할 수 있습니다.
 
 ## API 명세
 
 | Method | Endpoint | 설명 | Request Body / Query |
 |---|---|---|---|
-| GET | `/books` | 책 목록 조회 | Query: `q` 제목/저자 검색, `status` 독서 상태 필터, `category` 카테고리 필터. 정렬은 Frontend 상태에서 처리 |
+| GET | `/books` | 책 목록 조회 | Query: `q` 제목/저자 검색, `status` 독서 상태 필터, `category` 카테고리 필터. 기본 응답은 최신순이며, 별점/제목/완독일 정렬은 Frontend 상태에서 처리 |
 | GET | `/books/:id` | 책 상세 조회 | Path Parameter: `id` |
 | POST | `/books` | 책 추가 | Body: `title`, `author`, `category`, `status`, `rating`, `memo`, `startDate`, `endDate` |
 | PUT | `/books/:id` | 책 수정 | Path Parameter: `id`, Body: 수정할 Book 필드 |
@@ -196,7 +192,7 @@ VITE_API_BASE_URL=http://localhost:5000 npm run dev
 | `author` | `String` | 저자 |
 | `category` | `String` | 카테고리 |
 | `status` | `String` | 독서 상태 |
-| `rating` | `Number` | 별점 |
+| `rating` | `Number` | 별점, 0~5 |
 | `memo` | `String` | 메모 |
 | `startDate` | `String` | 독서 시작일 |
 | `endDate` | `String` | 완독일 |
@@ -255,7 +251,7 @@ VITE_API_BASE_URL=http://localhost:5000 npm run dev
 - 커스텀 삭제 확인 모달 구현
 - 요구사항 정의서 작성
 - 와이어프레임 문서화
-- Markdown 기반 문서를 HTML/PDF로 변환할 수 있는 구조 정리
+- 문서 PDF 생성 스크립트 구성
 
 ## 향후 개선 사항
 
