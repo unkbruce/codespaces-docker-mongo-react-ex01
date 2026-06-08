@@ -19,6 +19,18 @@
 
 ![BookLog 메인 화면](docs/images/booklog-main.png)
 
+## 배포 주소
+
+| 구분 | URL |
+|---|---|
+| Frontend | [보기](https://codespaces-docker-mongo-react-booklog-1.onrender.com/) |
+| Backend API | [보기](https://codespaces-docker-mongo-react-booklog.onrender.com) |
+
+Backend API는 아래 경로로 간단히 확인할 수 있습니다.
+
+- API 상태 확인: `/`
+- 도서 목록 확인: `/books`
+
 ## 프로젝트 문서
 
 | 문서 | Markdown | PDF |
@@ -145,34 +157,46 @@ GitHub Codespaces 환경에서는 **Ports** 탭에서 `5173` 포트를 열어 �
 
 ## 환경 변수
 
-MongoDB 연결 주소는 기본값으로 아래 주소를 사용합니다.
+### Backend
+
+Backend는 MongoDB 연결 주소로 `MONGO_URI`를 사용합니다. 환경변수가 없으면 로컬 개발용 기본값으로 아래 주소를 사용합니다.
 
 ```text
 mongodb://localhost:27017/booklog
 ```
 
-`MONGO_URI` 환경변수가 있으면 해당 값을 우선 사용합니다.
-
 ```bash
 MONGO_URI=mongodb://localhost:27017/booklog npm run dev
 ```
 
-Frontend에서 백엔드 API 주소를 바꾸고 싶다면 `VITE_API_BASE_URL`을 사용할 수 있습니다.
+배포 환경에서는 MongoDB Atlas 연결 주소를 `MONGO_URI`에 설정합니다.
+
+### Frontend
+
+Frontend는 백엔드 API 주소로 `VITE_API_BASE_URL`을 사용합니다. 로컬 기본값은 `http://localhost:5000`입니다.
 
 ```bash
 VITE_API_BASE_URL=http://localhost:5000 npm run dev
 ```
 
-## PDF 문서 생성 방법
+Render에 배포된 Backend API를 사용할 때는 아래처럼 설정합니다.
 
-문서 PDF는 `docs/html` 폴더의 HTML 원본을 기준으로 생성합니다.
-
-```bash
-npm install
-npm run docs:pdf
+```text
+VITE_API_BASE_URL=https://codespaces-docker-mongo-react-booklog.onrender.com
 ```
 
-최종 PDF 산출물은 `docs/pdf` 폴더에서 확인할 수 있습니다.
+## PDF 문서 생성 방법
+
+문서 PDF는 `docs/html` 폴더의 HTML 원본을 브라우저에서 열고, 인쇄 > PDF 저장 방식으로 생성했습니다.
+
+1. `docs/html/requirements.html` 또는 `docs/html/wireframe.html`을 브라우저에서 엽니다.
+2. 인쇄 메뉴를 실행합니다.
+3. 대상을 `PDF로 저장`으로 선택합니다.
+4. 용지는 `A4`로 설정합니다.
+5. 배경 그래픽 옵션을 체크합니다.
+6. 결과 파일을 `docs/pdf` 폴더에 저장합니다.
+
+자동 PDF 생성 스크립트가 포함되어 있지만, 실행 환경에 따라 Puppeteer용 Linux 라이브러리가 추가로 필요할 수 있습니다.
 
 ## API 명세
 
@@ -259,4 +283,4 @@ npm run docs:pdf
 - 월별 독서 통계
 - 다크모드
 - 사용자별 독서 기록 관리
-- 배포 환경 구성
+- 배포 환경 안정화 및 운영 설정 개선
